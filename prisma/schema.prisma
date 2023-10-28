@@ -1,0 +1,16 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./lista-presentes.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Presente {
+  id          Int     @id @default(autoincrement())
+  urlFoto     String
+  urlProduto  String
+  nomeProduto String
+  comprado    Boolean
+}
