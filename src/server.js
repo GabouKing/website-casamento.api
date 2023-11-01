@@ -26,7 +26,7 @@ app.get('/presentes', async (req, res) => {
 // Rota para criar um novo presente
 app.post('/presentes', async (req, res) => {
   const { urlFoto, urlProduto, nomeProduto, comprado } = req.body;
-  const { data, error } = await supabase.from('produtos').upsert([
+  const { data, error } = await supabase.from('Produtos').upsert([
     {
       urlFoto,
       urlProduto,
@@ -46,7 +46,8 @@ app.post('/presentes', async (req, res) => {
 app.put('/presentes/:id', async (req, res) => {
   const { id } = req.params;
   const { urlFoto, urlProduto, nomeProduto, comprado } = req.body;
-  const { data, error } = await supabase.from('produtos').upsert([
+  console.log(req)
+  const { data, error } = await supabase.from('Produtos').upsert([
     {
       id: parseInt(id),
       urlFoto,
@@ -60,13 +61,13 @@ app.put('/presentes/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao atualizar presente' });
     return;
   }
-  res.json(data[0]);
+  res.json(data);
 });
 
 // Rota para deletar um presente
 app.delete('/presentes/:id', async (req, res) => {
   const { id } = req.params;
-  const { error } = await supabase.from('produtos').delete().eq('id', parseInt(id));
+  const { error } = await supabase.from('Produtos').delete().eq('id', parseInt(id));
   if (error) {
     console.error('Erro ao deletar presente:', error);
     res.status(500).json({ error: 'Erro ao deletar presente' });
