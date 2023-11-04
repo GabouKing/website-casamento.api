@@ -25,13 +25,15 @@ app.get('/presentes', async (req, res) => {
 
 // Rota para criar um novo presente
 app.post('/presentes', async (req, res) => {
-  const { urlFoto, urlProduto, nomeProduto, comprado } = req.body;
+  const { urlFoto, urlProduto, nomeProduto, comprado, nome, dedicatoria } = req.body;  
   const { data, error } = await supabase.from('Produtos').upsert([
     {
       urlFoto,
       urlProduto,
       nomeProduto,
       comprado,
+      nome,
+      dedicatoria
     },
   ]);
   if (error) {
@@ -45,7 +47,7 @@ app.post('/presentes', async (req, res) => {
 // Rota para atualizar um presente
 app.put('/presentes/:id', async (req, res) => {
   const { id } = req.params;
-  const { urlFoto, urlProduto, nomeProduto, comprado } = req.body;
+  const { urlFoto, urlProduto, nomeProduto, comprado, nome, dedicatoria } = req.body;  
   console.log(req)
   const { data, error } = await supabase.from('Produtos').upsert([
     {
@@ -54,12 +56,14 @@ app.put('/presentes/:id', async (req, res) => {
       urlProduto,
       nomeProduto,
       comprado,
+      nome,
+      dedicatoria
     },
   ]);
   if (error) {
     console.error('Erro ao atualizar presente:', error);
     res.status(500).json({ error: 'Erro ao atualizar presente' });
-    return;
+    return; 
   }
   res.json(data);
 });
